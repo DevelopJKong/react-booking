@@ -1,15 +1,45 @@
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleArrowLeft,
+  faCircleArrowRight,
+  faCircleXmark,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
-
+import "./hotel.css";
 const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+const Slider = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.426);
+  z-index: 999;
+  display: flex;
+`;
+
+const SliderWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SliderImg = styled.img`
+  width: 80%;
+  height: 80vh;
 `;
 
 const Wrapper = styled.div`
@@ -90,7 +120,7 @@ const DetailsPrice = styled.div`
 
   & > h3 {
     font-size: 18px;
-    color:#555;
+    color: #555;
   }
 
   & > span {
@@ -98,7 +128,7 @@ const DetailsPrice = styled.div`
   }
 
   & > h4 {
-    margin-top:20px;
+    margin-top: 20px;
     font-weight: 300;
   }
 
@@ -106,11 +136,11 @@ const DetailsPrice = styled.div`
     border: none;
     padding: 10px 20px;
     background-color: #0071c2;
-    color:white;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    margin-top:20px;
+    margin-top: 20px;
   }
 `;
 
@@ -124,6 +154,20 @@ const HotelDesc = styled.p`
 `;
 
 const Hotel = () => {
+  const [slideNumber, setSlideNumber] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const handleMove = (direction) => {
+    let newSliderNumber;
+
+    if (direction === "left") {
+      newSliderNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSliderNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+    setSlideNumber(newSliderNumber);
+  };
+
   const photo = [
     {
       src: "https://source.unsplash.com/random/1",
@@ -145,10 +189,41 @@ const Hotel = () => {
     },
   ];
 
+  const handleOpen = (index) => {
+    setSlideNumber(index);
+    document.body.style.overflow = "hidden";
+    setOpen(true);
+  };
+
   return (
     <div>
       <Navbar />
       <Header type="list" />
+      {open && (
+        <Slider>
+          <FontAwesomeIcon
+            icon={faCircleXmark}
+            className="close"
+            onClick={() => {
+              document.body.style.overflow = "unset";
+              setOpen(false);
+            }}
+          />
+          <SliderWrapper>
+            <FontAwesomeIcon
+              icon={faCircleArrowLeft}
+              className="arrow"
+              onClick={() => handleMove("left")}
+            />
+            <SliderImg src={photo[slideNumber].src} />
+            <FontAwesomeIcon
+              icon={faCircleArrowRight}
+              className="arrow"
+              onClick={() => handleMove("right")}
+            />
+          </SliderWrapper>
+        </Slider>
+      )}
       <Container>
         <Wrapper>
           <BookBtn>Reserve or Book Now!</BookBtn>
@@ -165,7 +240,7 @@ const Hotel = () => {
             {photo.map((photo, index) => {
               return (
                 <ImgWrapper key={index}>
-                  <Img src={photo.src} />
+                  <Img onClick={() => handleOpen(index)} src={photo.src} />
                 </ImgWrapper>
               );
             })}
@@ -201,8 +276,8 @@ const Hotel = () => {
           </Details>
         </Wrapper>
       </Container>
-      <MailList/>
-      <Footer/>
+      <MailList />
+      <Footer />
     </div>
   );
 };
