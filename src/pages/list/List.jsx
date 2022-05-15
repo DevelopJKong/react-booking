@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { DateRange } from "react-date-range";
+import SearchItem from "../../components/searchItem/SearchItem";
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +27,16 @@ const Search = styled.div`
   border-radius: 10px;
   position: sticky;
   top: 10px;
+  height: max-content;
+  & > button {
+    padding: 10px;
+    background-color: #0071c2;
+    color: white;
+    border: none;
+    width: 100%;
+    font-weight: 500;
+    cursor: pointer;
+  }
 `;
 
 const Title = styled.h3`
@@ -58,7 +69,7 @@ const Item = styled.div`
   }
 `;
 const Options = styled.div`
-  padding:10px;
+  padding: 10px;
 `;
 
 const OptionItem = styled.div`
@@ -125,7 +136,7 @@ const List = () => {
                   <OptionText>
                     Max price <small>per night</small>
                   </OptionText>
-                  <OptionInput type="number"></OptionInput>
+                  <OptionInput type="number" />
                 </OptionItem>
                 <OptionItem>
                   <OptionText>Adult</OptionText>
@@ -133,7 +144,7 @@ const List = () => {
                     type="number"
                     min={1}
                     placeholder={options.adult}
-                  ></OptionInput>
+                  />
                 </OptionItem>
                 <OptionItem>
                   <OptionText>Children</OptionText>
@@ -141,7 +152,7 @@ const List = () => {
                     type="number"
                     min={0}
                     placeholder={options.children}
-                  ></OptionInput>
+                  />
                 </OptionItem>
                 <OptionItem>
                   <OptionText>Room</OptionText>
@@ -149,12 +160,22 @@ const List = () => {
                     type="number"
                     min={0}
                     placeholder={options.room}
-                  ></OptionInput>
+                  />
                 </OptionItem>
               </Options>
             </Item>
+            <button>Search</button>
           </Search>
-          <Result></Result>
+          <Result>
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+          </Result>
         </Wrapper>
       </Container>
     </div>
